@@ -12,12 +12,6 @@ import TheNav from '@/components/TheNav.vue'
 
 export default Vue.extend({
   name: 'TheHeader',
-  props: {
-    msg: {
-      type: String,
-      default: ''
-    }
-  },
   components: {
     TheNav
   }
