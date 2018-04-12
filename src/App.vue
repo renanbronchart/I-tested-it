@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <TheHeader />
-    <router-view/>
+    <link-list></link-list>
+    <!-- <router-view/> -->
   </div>
 </template>
 
@@ -9,10 +10,12 @@
 import Vue from 'vue'
 
 import TheHeader from '@/components/TheHeader.vue'
+import LinkList from '@/components/LinkList.vue'
 
 export default Vue.extend({
   components: {
-    TheHeader
+    TheHeader,
+    LinkList
   }
 })
 </script>

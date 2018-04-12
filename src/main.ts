@@ -1,15 +1,12 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
 import './registerServiceWorker'
-
-import 'tachyons'
-
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
+import 'tachyons'
+import Vue from 'vue'
 import VueApollo from 'vue-apollo'
+
+import App from './App.vue'
 
 Vue.config.productionTip = false
 
@@ -34,8 +31,8 @@ const apolloProvider = new VueApollo({
 })
 
 new Vue({
-  router,
-  store,
+  // router,
+  // store,
   provide: apolloProvider.provide(),
   render: h => h(App)
 }).$mount('#app')
