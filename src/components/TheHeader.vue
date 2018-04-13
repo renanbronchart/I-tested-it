@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <h1 class="header__title">I tested It</h1>
-    <TheNav></TheNav>
+    <TheNav />
   </header>
 </template>
 

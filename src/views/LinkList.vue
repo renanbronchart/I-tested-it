@@ -11,7 +11,7 @@
 
 <script>
 import { ALL_LINKS_QUERY } from '../constants/graphql'
-import LinkItem from './LinkItem'
+import LinkItem from '@/components/LinkItem'
 
 export default {
   name: 'LinkList',

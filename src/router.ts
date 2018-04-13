@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home.vue'
-import TheTest from '@/views/TheTest.vue'
-import TheTestEditor from '@/views/TheTestEditor.vue'
+import LinkList from '@/views/LinkList.vue'
+import CreateLink from '@/views/CreateLink.vue'
 
 Vue.use(Router)
 
@@ -12,22 +12,12 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: LinkList
     },
     {
-      path: '/new',
-      name: 'new',
-      component: TheTestEditor
-    },
-    {
-      path: '/:slug',
-      name: 'test',
-      component: TheTest
-    },
-    {
-      path: '/edit/:slug',
-      name: 'edit',
-      component: TheTestEditor
+      path: '/create',
+      name: 'create',
+      component: CreateLink
     }
   ]
 })
