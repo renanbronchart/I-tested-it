@@ -32,6 +32,18 @@ const apolloProvider = new VueApollo({
   }
 })
 
+interface AsyncIterator<T> {
+  next(value?: any): Promise<IteratorResult<T>>;
+  return?(value?: any): Promise<IteratorResult<T>>;
+  throw?(e?: any): Promise<IteratorResult<T>>;
+}
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    apollo: object
+  }
+}
+
 new Vue({
   router,
   // store,
