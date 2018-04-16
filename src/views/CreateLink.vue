@@ -17,9 +17,10 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable space-infix-ops */
-import { ALL_LINKS_QUERY, CREATE_LINK_MUTATION } from '../constants/graphql'
 import Vue from 'vue'
+
+import { GC_USER_ID } from '../constants/settings'
+import { ALL_LINKS_QUERY, CREATE_LINK_MUTATION } from '../constants/graphql'
 
 export default Vue.extend({
   name: 'CreateLink',
@@ -31,13 +32,24 @@ export default Vue.extend({
   },
   methods: {
     createLink (): any {
-      const {description, url} = this.$data
+      const postedById = localStorage.getItem(GC_USER_ID)
+      if (!postedById) {
+        console.error('error')
+        return
+      }
+
+      const newDescription = this.description
+      const newUrl = this.url
+
+      this.url = ''
+      this.description = ''
 
       this.$apollo.mutate({
         mutation: CREATE_LINK_MUTATION,
         variables: {
-          description,
-          url
+          description: newDescription,
+          url: newUrl,
+          postedById
         },
         update: (store, { data: {createLink} }): void => {
           const data: any = store.readQuery({
@@ -52,6 +64,8 @@ export default Vue.extend({
         this.$router.push('/')
       }).catch((error) => {
         console.error(error)
+        this.description = newDescription
+        this.url = newUrl
       })
     }
   }

@@ -4,5 +4,8 @@
     "plugin:vue/strongly-recommended",
     "@vue/standard",
     "@vue/typescript"
-  ]
+  ],
+  "rules": {
+    "space-infix-ops": "off"
+  }
 }
