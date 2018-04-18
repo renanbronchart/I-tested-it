@@ -28,8 +28,20 @@ import Vue from 'vue'
 
 import timeDifferenceForDate from '@/utils/timeDifference'
 
-import { CREATE_VOTE_MUTATION } from '@/constants/graphql'
+import { CREATE_VOTE_MUTATION, ALL_LINKS_QUERY } from '@/constants/graphql'
 import { GC_USER_ID } from '@/constants/settings'
+
+interface vote {
+  user: user
+}
+
+interface user {
+  id: string
+}
+
+interface link {
+  id: string
+}
 
 export default Vue.extend({
   name: 'LinkItem',
@@ -44,8 +56,8 @@ export default Vue.extend({
     }
   },
   computed: {
-    userId (): number {
-      return parseInt(this.$root.$data.userId)
+    userId (): string {
+      return this.$root.$data.userId
     },
     linkNumber (): number {
       let result = this.index + 1
@@ -59,8 +71,47 @@ export default Vue.extend({
   },
   methods: {
     timeDifferenceForDate,
-    voteForLink () {
+    voteForLink () : boolean {
+      const userId = localStorage.getItem(GC_USER_ID)
+      const voterIds = this.link.votes.map((vote:vote) => vote.user.id)
+      const linkId = this.link.id
 
+      if (voterIds.includes(userId)) {
+        alert(`User ${userId} has already voted`)
+        return false
+      } else if (typeof userId === 'undefined') {
+        alert('You are not registred')
+        return false
+      }
+
+      this.$apollo.mutate({
+        mutation: CREATE_VOTE_MUTATION,
+        variables: {
+          userId,
+          linkId
+        },
+        update: (store, {data}) => {
+          const { createVote } = data!
+
+          this.updateStoreAfterVote(store, createVote, linkId)
+        }
+      })
+
+      return true
+    },
+    updateStoreAfterVote (store: any, createVote : any, linkId : string) {
+      const data = store.readQuery({
+        query: ALL_LINKS_QUERY
+      })
+
+      const votedLink = data.allLinks.find((link: link) => link.id === linkId)
+
+      votedLink.votes = createVote.link.votes
+
+      store.writeQuery({
+        query: ALL_LINKS_QUERY,
+        data
+      })
     }
   }
 })

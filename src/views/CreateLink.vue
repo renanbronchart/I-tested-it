@@ -31,11 +31,11 @@ export default Vue.extend({
     }
   },
   methods: {
-    createLink (): any {
+    createLink (): boolean {
       const postedById = localStorage.getItem(GC_USER_ID)
       if (!postedById) {
         console.error('error')
-        return
+        return false
       }
 
       const newDescription = this.description
@@ -51,14 +51,10 @@ export default Vue.extend({
           url: newUrl,
           postedById
         },
-        update: (store, { data: {createLink} }): void => {
-          const data: any = store.readQuery({
-            query: ALL_LINKS_QUERY
-          })
-          data.allLinks.push(createLink)
-          store.writeQuery({
-            query: ALL_LINKS_QUERY, data
-          })
+        update: (store, { data }): void => {
+          const { createLink } = data!
+
+          this.updateStoreAfterUpdate(store, createLink)
         }
       }).then((data) => {
         this.$router.push('/')
@@ -66,6 +62,21 @@ export default Vue.extend({
         console.error(error)
         this.description = newDescription
         this.url = newUrl
+
+        return false
+      })
+
+      return true
+    },
+    updateStoreAfterUpdate (store: any, createLink: any): void {
+      const data: any = store.readQuery({
+        query: ALL_LINKS_QUERY
+      })
+
+      data.allLinks.push(createLink)
+
+      store.writeQuery({
+        query: ALL_LINKS_QUERY, data
       })
     }
   }
