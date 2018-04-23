@@ -4,6 +4,7 @@ import Home from '@/views/Home.vue'
 import LinkList from '@/views/LinkList.vue'
 import CreateLink from '@/views/CreateLink.vue'
 import TheLogin from '@/views/TheLogin.vue'
+import Search from '@/components/TheSearch.vue'
 
 Vue.use(Router)
 
@@ -24,6 +25,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: TheLogin
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: Search
     }
   ]
 })
