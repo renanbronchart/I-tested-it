@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 
 export const ALL_LINKS_QUERY = gql`
   query AllLinksQuery {
-    allLinks {
+    allLinks (orderBy: createdAt_DESC) {
       id
       createdAt
       url
