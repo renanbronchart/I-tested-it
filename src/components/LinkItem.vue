@@ -29,7 +29,7 @@ import Vue from 'vue'
 import timeDifferenceForDate from '@/utils/timeDifference'
 
 import { CREATE_VOTE_MUTATION, ALL_LINKS_QUERY } from '@/constants/graphql'
-import { GC_USER_ID } from '@/constants/settings'
+import { GC_USER_ID, LINKS_PER_PAGE } from '@/constants/settings'
 
 interface vote {
   user: user
@@ -53,6 +53,15 @@ export default Vue.extend({
     index: {
       default: 0,
       type: Number
+    },
+    pageNumber: {
+      default: 0,
+      type: Number
+    }
+  },
+  data () {
+    return {
+      linksPerPage: LINKS_PER_PAGE
     }
   },
   computed: {
@@ -101,7 +110,12 @@ export default Vue.extend({
     },
     updateStoreAfterVote (store: any, createVote : any, linkId : string) {
       const data = store.readQuery({
-        query: ALL_LINKS_QUERY
+        query: ALL_LINKS_QUERY,
+        variables: {
+          first: 10,
+          skip: 0,
+          orderBy: 'createdAt_DESC'
+        }
       })
 
       const votedLink = data.allLinks.find((link: link) => link.id === linkId)

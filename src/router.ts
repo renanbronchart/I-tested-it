@@ -13,8 +13,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: LinkList
+      redirect: '/new/1'
     },
     {
       path: '/create',
@@ -27,9 +26,19 @@ export default new Router({
       component: TheLogin
     },
     {
+      path: '/new/:page',
+      name: 'newPage',
+      component: LinkList
+    },
+    {
       path: '/search',
       name: 'search',
       component: Search
+    },
+    {
+      path: '/top',
+      name: 'topPage',
+      component: LinkList
     }
   ]
 })

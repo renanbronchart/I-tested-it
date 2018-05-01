@@ -17,6 +17,11 @@
       class="nav__link">
       Login or SignUp
     </router-link>
+    <router-link
+      to="/top"
+      class="nav__link">
+      top
+    </router-link>
     <a
       href="#"
       click.prevent="logout">Logout</a>

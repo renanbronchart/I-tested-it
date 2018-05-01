@@ -19,7 +19,7 @@
 <script lang="ts">
 import Vue from 'vue'
 
-import { GC_USER_ID } from '../constants/settings'
+import { GC_USER_ID, LINKS_PER_PAGE } from '../constants/settings'
 import { ALL_LINKS_QUERY, CREATE_LINK_MUTATION } from '../constants/graphql'
 
 export default Vue.extend({
@@ -70,13 +70,24 @@ export default Vue.extend({
     },
     updateStoreAfterUpdate (store: any, createLink: any): void {
       const data: any = store.readQuery({
-        query: ALL_LINKS_QUERY
+        query: ALL_LINKS_QUERY,
+        variables: {
+          first: LINKS_PER_PAGE,
+          skip: 0,
+          orderBy: 'createdAt_DESC'
+        }
       })
 
       data.allLinks.push(createLink)
 
       store.writeQuery({
-        query: ALL_LINKS_QUERY, data
+        query: ALL_LINKS_QUERY,
+        variables: {
+          first: LINKS_PER_PAGE,
+          skip: 0,
+          orderBy: 'createdAt_DESC'
+        },
+        data
       })
     }
   }

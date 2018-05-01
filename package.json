@@ -20,6 +20,7 @@
     "apollo-utilities": "^1.0.11",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.8.0",
+    "lodash": "^4.17.10",
     "register-service-worker": "^1.0.0",
     "subscriptions-transport-ws": "^0.9.8",
     "tachyons": "^4.9.1",
