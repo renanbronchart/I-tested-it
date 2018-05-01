@@ -3,6 +3,9 @@ import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloLink } from 'apollo-link'
+import { split } from 'apollo-link'
+import { WebSocketLink } from 'apollo-link-ws'
+import { getMainDefinition } from 'apollo-utilities'
 import 'tachyons'
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
@@ -21,6 +24,25 @@ const httpLink = new HttpLink({
   // You should use an absolute URL here
   uri: 'https://api.graph.cool/simple/v1/cjfvm8as87e1i0120oii0tcbv'
 })
+
+const wsLink = new WebSocketLink({
+  uri: 'wss://subscriptions.graph.cool/v1/cjfvm8as87e1i0120oii0tcbv',
+  options: {
+    reconnect: true,
+  },
+})
+
+const link = split(
+  // split based on operation type
+  ({ query }) => {
+    const { kind, operation } = getMainDefinition(query)
+
+    return kind === 'OperationDefinition' &&
+      operation === 'subscription'
+  },
+  wsLink,
+  httpLink
+)
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
@@ -41,7 +63,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 })
 
 const apolloClient = new ApolloClient({
-  link: authMiddleware.concat(httpLink),
+  link: authMiddleware.concat(link),
   cache: new InMemoryCache(),
   connectToDevTools: true
 })
