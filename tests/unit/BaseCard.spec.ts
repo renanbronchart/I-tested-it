@@ -3,7 +3,7 @@ import { shallow } from '@vue/test-utils'
 import BaseCard from '@/components/BaseCard.vue'
 
 describe('BaseCard', () => {
-  desribe('Attributes', () => {
+  describe('Attributes', () => {
     describe('Card with extra class and background image', () => {
       let wrapper: any
 

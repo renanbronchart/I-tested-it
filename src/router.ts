@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home.vue'
-import TheTest from '@/views/TheTest.vue'
-import TheTestEditor from '@/views/TheTestEditor.vue'
+import LinkList from '@/views/LinkList.vue'
+import CreateLink from '@/views/CreateLink.vue'
+import TheLogin from '@/views/TheLogin.vue'
+import Search from '@/components/TheSearch.vue'
 
 Vue.use(Router)
 
@@ -11,23 +13,32 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      redirect: '/new/1'
     },
     {
-      path: '/new',
-      name: 'new',
-      component: TheTestEditor
+      path: '/create',
+      name: 'create',
+      component: CreateLink
     },
     {
-      path: '/:slug',
-      name: 'test',
-      component: TheTest
+      path: '/login',
+      name: 'login',
+      component: TheLogin
     },
     {
-      path: '/edit/:slug',
-      name: 'edit',
-      component: TheTestEditor
+      path: '/new/:page',
+      name: 'newPage',
+      component: LinkList
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: Search
+    },
+    {
+      path: '/top',
+      name: 'topPage',
+      component: LinkList
     }
   ]
 })
