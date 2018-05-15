@@ -7,12 +7,9 @@
     <p>Posted : {{ timeDifferenceForDate(article.createdAt) }}</p>
     <p>Votes : {{ article.votes.length }}</p>
     <p>By {{ article.user ? article.user.name : 'Unknown' }}</p>
-    <a
-      href="#"
-      @click.prevent="voteForLink()"
-    >
-      Vote for this article
-    </a>
+    <BaseButton @eventClick="voteForLink()">
+      Votez pour cet article
+    </BaseButton>
   </div>
 </template>
 
@@ -20,6 +17,7 @@
 import Vue from 'vue'
 
 import BaseAvatar from '@/components/BaseAvatar.vue'
+import BaseButton from '@/components/BaseButton.vue'
 
 import { CREATE_VOTE_MUTATION, ALL_LINKS_QUERY } from '@/constants/graphql'
 import { GC_USER_ID } from '@/constants/settings'
@@ -84,8 +82,12 @@ export default Vue.extend({
         }
       })
 
-      const votedLink = data.allLinks.find((link: link) => link.id === linkId)
-
+      console.log(linkId, 'linkId')
+      const votedLink = data.allLinks.find((link: link) => {
+        console.log(link, 'link')
+        return link.id === linkId
+      })
+      console.log(votedLink, 'votedLink')
       votedLink.votes = createVote.link.votes
 
       store.writeQuery({
@@ -100,7 +102,8 @@ export default Vue.extend({
     }
   },
   components: {
-    BaseAvatar
+    BaseAvatar,
+    BaseButton
   }
 })
 </script>
