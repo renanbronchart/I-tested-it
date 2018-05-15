@@ -11,6 +11,7 @@
         v-model="url"
         type="text"
         placeholder="The URL for the link">
+      <TheInputTags v-model="tags"/>
     </div>
     <button @click="createLink()">Submit</button>
   </div>
@@ -22,12 +23,15 @@ import Vue from 'vue'
 import { GC_USER_ID, LINKS_PER_PAGE } from '../constants/settings'
 import { ALL_LINKS_QUERY, CREATE_LINK_MUTATION } from '../constants/graphql'
 
+import TheInputTags from '@/components/TheInputTags.vue'
+
 export default Vue.extend({
   name: 'CreateLink',
   data () {
     return {
       description: '',
-      url: ''
+      url: '',
+      tags: []
     }
   },
   methods: {
@@ -40,15 +44,18 @@ export default Vue.extend({
 
       const newDescription = this.description
       const newUrl = this.url
+      const newTags = this.tags
 
       this.url = ''
       this.description = ''
+      this.tags = []
 
       this.$apollo.mutate({
         mutation: CREATE_LINK_MUTATION,
         variables: {
           description: newDescription,
           url: newUrl,
+          tags: newTags,
           postedById
         },
         update: (store, { data }): void => {
@@ -62,6 +69,7 @@ export default Vue.extend({
         console.error(error)
         this.description = newDescription
         this.url = newUrl
+        this.tags = newTags
 
         return false
       })
@@ -90,6 +98,9 @@ export default Vue.extend({
         data
       })
     }
+  },
+  components: {
+    TheInputTags
   }
 })
 </script>

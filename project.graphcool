@@ -1,5 +1,5 @@
 # project: cjfvm8as87e1i0120oii0tcbv
-# version: 6
+# version: 8
 
 type Link @model {
   id: ID! @isUnique
@@ -7,17 +7,9 @@ type Link @model {
   updatedAt: DateTime!
   url: String!
   description: String!
-  tags: [Tag!]! @relation(name: "TagsOnLink")
   postedBy: User @relation(name: "UsersLinks")
   votes: [Vote!]! @relation(name: "VotesOnLink")
-}
-
-type Tag @model {
-  id: ID! @isUnique
-  name: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  links: [Link!]! @relation(name: "TagsOnLink")
+  tags: [String!]
 }
 
 type File @model {

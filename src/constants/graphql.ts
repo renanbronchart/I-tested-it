@@ -8,6 +8,7 @@ export const ALL_LINKS_QUERY = gql`
       createdAt
       url
       description
+      tags
       postedBy {
         id
         name
@@ -17,10 +18,6 @@ export const ALL_LINKS_QUERY = gql`
         user {
           id
         }
-      }
-      tags {
-       id
-       name
       }
     }
     _allLinksMeta {
@@ -57,16 +54,18 @@ export const ALL_LINKS_SEARCH_QUERY = gql`
 `
 
 export const CREATE_LINK_MUTATION = gql`
-  mutation CreateLinkMutation($description: String!, $url: String!, $postedById: ID!) {
+  mutation CreateLinkMutation($description: String!, $url: String!, $tags: [String!]!, $postedById: ID!) {
     createLink (
       description: $description,
-      url: $url,
+      url: $url
+      tags: $tags
       postedById: $postedById
     ) {
       id
       createdAt
       url
       description
+      tags
       postedBy {
         id
         name
