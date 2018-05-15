@@ -20,7 +20,7 @@ import BaseAvatar from '@/components/BaseAvatar.vue'
 import BaseButton from '@/components/BaseButton.vue'
 
 import { CREATE_VOTE_MUTATION, ALL_LINKS_QUERY } from '@/constants/graphql'
-import { GC_USER_ID } from '@/constants/settings'
+import { GC_USER_ID, LINKS_PER_PAGE } from '@/constants/settings'
 import timeDifferenceForDate from '@/utils/timeDifference'
 
 interface vote {
@@ -73,21 +73,22 @@ export default Vue.extend({
       return true
     },
     updateStoreAfterVote (store: any, createVote : any, linkId : string) {
+      const page = parseInt(this.$route.params.page, 10)
+      const isNewPage = this.$route.path.includes('new')
+      const skip = isNewPage ? (page - 1) * LINKS_PER_PAGE : 0
       const data = store.readQuery({
         query: ALL_LINKS_QUERY,
         variables: {
           first: 10,
-          skip: 0,
+          skip,
           orderBy: 'createdAt_DESC'
         }
       })
 
-      console.log(linkId, 'linkId')
       const votedLink = data.allLinks.find((link: link) => {
-        console.log(link, 'link')
         return link.id === linkId
       })
-      console.log(votedLink, 'votedLink')
+
       votedLink.votes = createVote.link.votes
 
       store.writeQuery({
