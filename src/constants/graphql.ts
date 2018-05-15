@@ -18,6 +18,10 @@ export const ALL_LINKS_QUERY = gql`
           id
         }
       }
+      tags {
+       id
+       name
+      }
     }
     _allLinksMeta {
       count

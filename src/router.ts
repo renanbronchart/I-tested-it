@@ -5,6 +5,7 @@ const LinkList = () => import('@/views/LinkList.vue')
 const CreateLink = () => import('@/views/CreateLink.vue')
 const TheLogin = () => import('@/views/TheLogin.vue')
 const Search = () => import('@/components/TheSearch.vue')
+const Article = () => import('@/views/Article.vue')
 
 Vue.use(Router)
 
@@ -14,6 +15,11 @@ export default new Router({
     {
       path: '/',
       redirect: '/new/1'
+    },
+    {
+      path: '/article/:name',
+      name: 'article',
+      component: Article
     },
     {
       path: '/create',

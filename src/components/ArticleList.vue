@@ -140,8 +140,8 @@ export default Vue.extend({
           updateQuery: (previousData, { subscriptionData }) => {
             if (!subscriptionData.data.Vote) return
 
-            const votedLinkIndex = previousData.allLinks.findIndex(link => link.id === subscriptionData.data.Vote.link.id)
-            const link = subscriptionData.data.Vote.link
+            const votedLinkIndex = previousData.allLinks.findIndex(link => link.id === subscriptionData.data.Vote.node.link.id)
+            const link = subscriptionData.data.Vote.node.link
             const newAllLinks = [...previousData.allLinks]
             newAllLinks[votedLinkIndex] = link
 
