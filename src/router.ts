@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/views/Home.vue'
-import LinkList from '@/views/LinkList.vue'
-import CreateLink from '@/views/CreateLink.vue'
-import TheLogin from '@/views/TheLogin.vue'
-import Search from '@/components/TheSearch.vue'
+const Home = () => import('@/views/Home.vue')
+const LinkList = () => import('@/views/LinkList.vue')
+const CreateLink = () => import('@/views/CreateLink.vue')
+const TheLogin = () => import('@/views/TheLogin.vue')
+const Search = () => import('@/components/TheSearch.vue')
 
 Vue.use(Router)
 
@@ -28,7 +28,7 @@ export default new Router({
     {
       path: '/new/:page',
       name: 'newPage',
-      component: LinkList
+      component: Home
     },
     {
       path: '/search',
@@ -38,7 +38,7 @@ export default new Router({
     {
       path: '/top',
       name: 'topPage',
-      component: LinkList
+      component: Home
     }
   ]
 })

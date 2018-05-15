@@ -1,5 +1,4 @@
 import { shallow } from '@vue/test-utils'
-
 import BaseCard from '@/components/BaseCard.vue'
 
 describe('BaseCard', () => {
