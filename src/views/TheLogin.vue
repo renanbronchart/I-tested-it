@@ -72,6 +72,8 @@ export default Vue.extend({
         }).catch(error => {
           console.log(error)
         })
+
+        this.$router.push('/')
       } else {
         this.$apollo.mutate({
           mutation: CREATE_USER_MUTATION,

@@ -27,8 +27,8 @@ import Vue from 'vue'
 export default Vue.extend({
   props: {
     taglist: {
-      type: Array,
-      default: undefined
+      type: Object,
+      default: null
     }
   },
   data () {

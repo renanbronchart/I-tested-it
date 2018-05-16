@@ -6,15 +6,18 @@
     >
       Home
     </router-link>
-    <!-- <router-link to="/vue-js-a4567" class="nav__link">TheTest</router-link> -->
     <router-link
       to="/create"
-      class="nav__link">
+      class="nav__link"
+      v-if="userId"
+    >
       Create
     </router-link>
     <router-link
       to="/login"
-      class="nav__link">
+      class="nav__link"
+      v-if="!userId"
+    >
       Login or SignUp
     </router-link>
     <router-link
@@ -24,8 +27,9 @@
     </router-link>
     <a
       href="#"
-      click.prevent="logout">Logout</a>
-      <!-- <router-link to="/edit/vue-js-a4567" class="nav__link">Edit</router-link> -->
+      @click.prevent="logout"
+      v-if="userId"
+    >Logout</a>
   </div>
 </template>
 
@@ -44,7 +48,7 @@ export default Vue.extend({
     logout () {
       localStorage.removeItem(GC_USER_ID)
       localStorage.removeItem(GC_AUTH_TOKEN)
-      this.$root.$data.userId = undefined
+      this.$root.$data.userId = null
     }
   }
 })

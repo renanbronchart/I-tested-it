@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 const Home = () => import('@/views/Home.vue')
-const LinkList = () => import('@/views/LinkList.vue')
 const CreateLink = () => import('@/views/CreateLink.vue')
 const TheLogin = () => import('@/views/TheLogin.vue')
 const Search = () => import('@/components/TheSearch.vue')
