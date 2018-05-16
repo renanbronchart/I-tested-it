@@ -19,8 +19,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapState } from 'vuex'
 
-import { GC_USER_ID, LINKS_PER_PAGE } from '../constants/settings'
+import { LINKS_PER_PAGE } from '../constants/settings'
 import { ALL_LINKS_QUERY, CREATE_LINK_MUTATION } from '../constants/graphql'
 
 import TheInputTags from '@/components/TheInputTags.vue'
@@ -34,9 +35,14 @@ export default Vue.extend({
       tags: []
     }
   },
+  computed: {
+    ...mapState([
+      'authentication'
+    ])
+  },
   methods: {
     createLink (): boolean {
-      const postedById = localStorage.getItem(GC_USER_ID)
+      const postedById = this.authentication.userId
       if (!postedById) {
         console.error('error')
         return false

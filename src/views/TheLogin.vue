@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h4>{{ login ? 'Login' : 'Sign Up' }}</h4>
+    <h4>{{ loginOn ? 'Login' : 'Sign Up' }}</h4>
     <div class="flex flex-column">
       <input
-        v-show="!login"
+        v-show="!loginOn"
         v-model="name"
         type="text"
         placeholder="Your name"
@@ -25,23 +25,21 @@
         @click.prevent="confirm()"
 
       >
-        {{ login ? 'login' : 'create account' }}
+        {{ loginOn ? 'login' : 'create account' }}
       </div>
       <div
         class="pointer button"
-        @click.prevent="login = !login"
+        @click.prevent="loginOn = !loginOn"
       >
-        {{ login ? 'Need to create account' : 'already have an account' }}
+        {{ loginOn ? 'Need to create account' : 'already have an account' }}
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue'
-
-import { GC_USER_ID, GC_AUTH_TOKEN } from '../constants/settings'
-import { CREATE_USER_MUTATION, SIGN_IN_USER_MUTATION } from '../constants/graphql'
+import { mapMutations, mapActions } from 'vuex'
 
 export default Vue.extend({
   name: 'TheLogin',
@@ -50,54 +48,24 @@ export default Vue.extend({
       email: '',
       name: '',
       password: '',
-      login: true
+      loginOn: true
     }
   },
   methods: {
+    ...mapActions([
+      'login',
+      'signup'
+    ]),
     confirm () {
       const { name, email, password } = this.$data
 
-      if (this.login) {
-        this.$apollo.mutate({
-          mutation: SIGN_IN_USER_MUTATION,
-          variables: {
-            email,
-            password
-          }
-        }).then((result) => {
-          const id: string = result.data.signinUser.user.id
-          const token: string = result.data.signinUser.user.token
-
-          this.saveUserData(id, token)
-        }).catch(error => {
-          console.log(error)
-        })
-
+      if (this.loginOn) {
+        this.login({email, password})
         this.$router.push('/')
       } else {
-        this.$apollo.mutate({
-          mutation: CREATE_USER_MUTATION,
-          variables: {
-            name,
-            email,
-            password
-          }
-        }).then((result) => {
-          const id: string = result.data.signinUser.user.id
-          const token: string = result.data.signinUser.user.token
-
-          this.saveUserData(id, token)
-        }).catch(error => {
-          console.log(error)
-        })
-
+        this.signup({email, name, password})
         this.$router.push('/')
       }
-    },
-    saveUserData (id: string, token: string): void {
-      localStorage.setItem(GC_USER_ID, id)
-      localStorage.setItem(GC_AUTH_TOKEN, token)
-      this.$root.$data.userId = localStorage.getItem(id)
     }
   }
 })

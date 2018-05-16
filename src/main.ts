@@ -7,13 +7,15 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import 'tachyons'
 import Vue from 'vue'
+import Vuex from 'vuex'
 import VueApollo from 'vue-apollo'
 
 import router from './router'
+import store from './store'
 
 import App from './App.vue'
 
-import { GC_USER_ID, GC_AUTH_TOKEN } from './constants/settings'
+import { GC_USER_ID, GC_AUTH_TOKEN } from '@/constants/settings'
 import { createApolloClient } from '@/utils/graphql'
 
 Vue.config.productionTip = false
@@ -30,8 +32,8 @@ const apolloProvider = new VueApollo({
 })
 
 new Vue({
+  store,
   router,
-  // store,
   provide: apolloProvider.provide(),
   data: {
     userId

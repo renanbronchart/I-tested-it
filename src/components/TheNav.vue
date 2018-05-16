@@ -9,14 +9,14 @@
     <router-link
       to="/create"
       class="nav__link"
-      v-if="userId"
+      v-if="authentication.userId"
     >
       Create
     </router-link>
     <router-link
       to="/login"
       class="nav__link"
-      v-if="!userId"
+      v-if="!authentication.userId"
     >
       Login or SignUp
     </router-link>
@@ -28,28 +28,27 @@
     <a
       href="#"
       @click.prevent="logout"
-      v-if="userId"
+      v-if="authentication.userId"
     >Logout</a>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapState, mapMutations } from 'vuex'
 
 import { GC_USER_ID, GC_AUTH_TOKEN } from '../constants/settings'
 
 export default Vue.extend({
   computed: {
-    userId (): string {
-      return this.$root.$data.userId
-    }
+    ...mapState([
+      'authentication'
+    ])
   },
   methods: {
-    logout () {
-      localStorage.removeItem(GC_USER_ID)
-      localStorage.removeItem(GC_AUTH_TOKEN)
-      this.$root.$data.userId = null
-    }
+    ...mapMutations({
+      logout: 'LOGOUT'
+    })
   }
 })
 </script>
